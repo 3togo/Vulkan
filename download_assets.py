@@ -3,11 +3,12 @@
 import sys
 from urllib.request import urlretrieve
 from zipfile import ZipFile
+import os
 
 ASSET_PACK_URL = 'http://vulkan.gpuinfo.org/downloads/vulkan_asset_pack_gltf.zip'
 ASSET_PACK_FILE_NAME = 'vulkan_asset_pack_gltf.zip'
 
-print("Downloading asset pack from '%s'" % ASSET_PACK_URL)    
+print("Downloading asset pack from '%s'" % ASSET_PACK_URL)
 
 def reporthook(blocknum, blocksize, totalsize):
     bytesread = blocknum * blocksize
@@ -20,9 +21,9 @@ def reporthook(blocknum, blocksize, totalsize):
     else:
         sys.stderr.write("read %d\n" % (bytesread,))
 
-urlretrieve(ASSET_PACK_URL, ASSET_PACK_FILE_NAME, reporthook)
-
-print("Download finished")
+if not os.path.exists(ASSET_PACK_FILE_NAME):
+    urlretrieve(ASSET_PACK_URL, ASSET_PACK_FILE_NAME, reporthook)
+    print("Download finished")
 
 print("Extracting assets")
 
